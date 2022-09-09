@@ -9,15 +9,6 @@ enum class TokenType {
     UNDEFINED
 };
 
-std::string TokenTypeToString(TokenType tokenType) {
-    switch (tokenType) {
-        case TokenType::COLON: return "COLON"; break;
-        case TokenType::COLON_DASH: return "COLON_DASH"; break;
-        case TokenType::UNDEFINED: return "UNDEFINED"; break;
-    }
-    return "ERROR"; // a string MUST be returned by the end
-}
-
 class Token
 {
 private:
@@ -30,7 +21,8 @@ public:
     Token(TokenType type, std::string description, int line);
 
     // TODO: add other needed methods
-    std::string toString(unsigned int i);
+    std::string TokenTypeToString();
+    std::string toString();
 };
 
 #endif // TOKEN_H
