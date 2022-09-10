@@ -5,7 +5,7 @@
 
 int main(int argc, char** argv) {
 
-    Lexer* lexer = new Lexer();
+    // Lexer* lexer = new Lexer();
 
     // TODO
     char c;
@@ -15,11 +15,10 @@ int main(int argc, char** argv) {
     while (infile >> c) {
         c = infile.get();
         infile_chars.push_back(c);
-        std::cout << c;
     }
     infile.close();
 
-    delete lexer;
+    // delete lexer;
 
     return 0;
 }
