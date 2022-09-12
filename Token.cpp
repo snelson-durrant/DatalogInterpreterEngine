@@ -7,15 +7,15 @@ Token::Token(TokenType type, std::string description, int line) {
     token_type = type;
 }
 
-std::string Token::toString() {
+std::string Token::ToString() {
     return "(" + Token::TokenTypeToString() + "," + token_value + "," + std::to_string(line_number) + ")";
 }
 
 std::string Token::TokenTypeToString() {
     switch (token_type) {
-        case TokenType::COLON: return "COLON"; break;
-        case TokenType::COLON_DASH: return "COLON_DASH"; break;
-        case TokenType::UNDEFINED: return "UNDEFINED"; break;
+        case TokenType::COLON: return "COLON";
+        case TokenType::COLON_DASH: return "COLON_DASH";
+        case TokenType::UNDEFINED: return "UNDEFINED";
     }
     return "ERROR"; // a string MUST be returned by the end
 }

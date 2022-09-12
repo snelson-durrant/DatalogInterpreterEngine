@@ -22,7 +22,7 @@ public:
 
     // TODO: add other needed methods
     std::string TokenTypeToString();
-    std::string toString();
+    std::string ToString();
 };
 
 #endif // TOKEN_H

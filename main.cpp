@@ -1,7 +1,6 @@
 #include "Lexer.h"
 #include <iostream>
 #include <fstream>
-#include <vector>
 
 int main(int argc, char** argv) {
 
@@ -11,10 +10,11 @@ int main(int argc, char** argv) {
     char c;
     std::string filename = argv[1];
     std::ifstream infile(filename);
-    std::vector<char> infile_chars;
+    std::string infile_string;
     while (infile >> c) {
+        // maybe don't need c?
         c = infile.get();
-        infile_chars.push_back(c);
+        infile_string.push_back(c);
     }
     infile.close();
 
