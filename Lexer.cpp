@@ -8,13 +8,22 @@
 #include "PeriodAutomaton.h"
 #include "QMarkAutomaton.h"
 #include "RightParenAutomaton.h"
+#include "IDAutomaton.h"
 
 Lexer::Lexer() {
     CreateAutomata();
 }
 
 Lexer::~Lexer() {
-    // TODO: need to clean up the memory in `automata` and `tokens`
+    // TODO check if this did anything at all?
+    // for (Automaton* automaton : automata) {
+    //    delete automaton;
+    // }
+    // automata.clear();
+    // for (Token* token : tokens) {
+    //    delete token;
+    // }
+    // tokens.clear();
 }
 
 void Lexer::CreateAutomata() {
@@ -27,6 +36,7 @@ void Lexer::CreateAutomata() {
     automata.push_back(new PeriodAutomaton());
     automata.push_back(new QMarkAutomaton());
     automata.push_back(new RightParenAutomaton());
+    automata.push_back(new IDAutomaton());
     // TODO: Add the other needed automata here
 }
 

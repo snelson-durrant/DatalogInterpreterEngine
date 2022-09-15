@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 
-int main(int argc, char** argv) {
+int main (int argc, char** argv) {
 
     Lexer* lexer = new Lexer();
 

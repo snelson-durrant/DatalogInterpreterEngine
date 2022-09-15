@@ -32,4 +32,6 @@ add_executable(snelsond_project1
         QMarkAutomaton.h
         RightParenAutomaton.cpp
         RightParenAutomaton.h
+        IDAutomaton.cpp
+        IDAutomaton.h
         )
