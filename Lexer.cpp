@@ -1,6 +1,7 @@
 #include "Lexer.h"
 #include "ColonAutomaton.h"
 #include "ColonDashAutomaton.h"
+#include <algorithm>
 
 Lexer::Lexer() {
     CreateAutomata();
@@ -18,41 +19,49 @@ void Lexer::CreateAutomata() {
 
 void Lexer::Run(std::string& input) {
     // TODO: convert this pseudo-code with the algorithm into actual C++ code
-    /*
-    set lineNumber to 1
+    int lineNumber = 1;
     // While there are more characters to tokenize
-    loop while input.size() > 0 {
-        set maxRead to 0
-        set maxAutomaton to the first automaton in automata
+    while (input.size() > 0) {
+        int maxRead = 0;
+        Automaton* maxAutomaton = automata[0];
 
-        // TODO: you need to handle whitespace inbetween tokens
+        input.erase(remove_if(input.begin(), input.end(), isspace), input.end());
 
         // Here is the "Parallel" part of the algorithm
-        //   Each automaton runs with the same input
-        foreach automaton in automata {
-            inputRead = automaton.Start(input)
+        // Each automaton runs with the same input
+        for (Automaton* automaton : automata) {
+            int inputRead = automaton->Start(input);
             if (inputRead > maxRead) {
-                set maxRead to inputRead
-                set maxAutomaton to automaton
+                maxRead = inputRead;
+                maxAutomaton = automaton;
             }
         }
         // Here is the "Max" part of the algorithm
-        if maxRead > 0 {
-            set newToken to maxAutomaton.CreateToken(...)
-                increment lineNumber by maxAutomaton.NewLinesRead()
-                add newToken to collection of all tokens
+        if (maxRead > 0) {
+            Token* newToken = maxAutomaton->CreateToken(input.std::string::substr(0, maxRead), lineNumber);
+            lineNumber += maxRead;
+            tokens.push_back(newToken);
         }
         // No automaton accepted input
         // Create single character undefined token
         else {
-            set maxRead to 1
-                set newToken to a  new undefined Token
-                (with first character of input)
-                add newToken to collection of all tokens
+            maxRead = 1;
+            Token* newToken = new Token(TokenType::UNDEFINED, input.std::string::substr(0, 1), lineNumber);
+            lineNumber += 1;
+            tokens.push_back(newToken);
         }
-        // Update `input` by removing characters read to create Token
-        remove maxRead characters from input
+        input.erase(0, maxRead);
     }
-    add end of file token to all tokens
-    */
+    // tokens.push_back(EOF)
+    // TODO add end of file token to all tokens
+}
+
+std::string Lexer::AllTokensToString() {
+    std::string all_tokens = "";
+    for (Token* token : tokens) {
+        std::string token_str = token->ToString();
+        all_tokens = all_tokens.append(token_str);
+        all_tokens += '\n';
+    }
+    return all_tokens;
 }
