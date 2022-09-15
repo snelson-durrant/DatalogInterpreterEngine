@@ -9,6 +9,7 @@
 #include "QMarkAutomaton.h"
 #include "RightParenAutomaton.h"
 #include "IDAutomaton.h"
+#include "StringAutomaton.h"
 
 Lexer::Lexer() {
     CreateAutomata();
@@ -37,6 +38,7 @@ void Lexer::CreateAutomata() {
     automata.push_back(new QMarkAutomaton());
     automata.push_back(new RightParenAutomaton());
     automata.push_back(new IDAutomaton());
+    automata.push_back(new StringAutomaton());
     // TODO: Add the other needed automata here
 }
 

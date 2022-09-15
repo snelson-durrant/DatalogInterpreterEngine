@@ -34,4 +34,6 @@ add_executable(snelsond_project1
         RightParenAutomaton.h
         IDAutomaton.cpp
         IDAutomaton.h
+        StringAutomaton.cpp
+        StringAutomaton.h
         )
