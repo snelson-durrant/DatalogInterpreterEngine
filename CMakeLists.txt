@@ -17,4 +17,4 @@ add_executable(snelsond_project1
         Lexer.h
         main.cpp
         Token.cpp
-        Token.h)
+        Token.h CommaAutomaton.h)
