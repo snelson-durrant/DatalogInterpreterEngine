@@ -37,8 +37,6 @@ void Lexer::Run(std::string& input) {
         int maxRead = 0;
         Automaton* maxAutomaton = automata[0];
 
-        // TODO deal with white space
-
         // Here is the "Parallel" part of the algorithm
         // Each automaton runs with the same input
         for (Automaton* automaton : automata) {
@@ -51,29 +49,31 @@ void Lexer::Run(std::string& input) {
         // Here is the "Max" part of the algorithm
         if (maxRead > 0) {
             Token* newToken = maxAutomaton->CreateToken(input.std::string::substr(0, maxRead), lineNumber);
-            lineNumber += maxRead;
             tokens.push_back(newToken);
         }
         // No automaton accepted input
         // Create single character undefined token
-        else {
+        else if (!isspace(input[0]) and input[0] != EOF) {
             maxRead = 1;
             Token* newToken = new Token(TokenType::UNDEFINED, input.std::string::substr(0, 1), lineNumber);
-            lineNumber += 1;
             tokens.push_back(newToken);
+        } else {
+            if (input[0] == '\n') {
+                lineNumber++;
+            }
+            maxRead = 1;
         }
         input.erase(0, maxRead);
     }
-    // tokens.push_back(EOF)
-    // TODO add end of file token to all tokens
+    Token* newToken = new Token(TokenType::EOF_TOKEN, "", lineNumber);
+    tokens.push_back(newToken);
 }
 
-std::string Lexer::AllTokensToString() {
-    std::string all_tokens = "";
+std::vector<std::string> Lexer::TokensToVector() {
+    std::vector<std::string> all_tokens;
     for (Token* token : tokens) {
         std::string token_str = token->ToString();
-        all_tokens += token_str;
-        all_tokens += '\n';
+        all_tokens.push_back(token_str);
     }
     return all_tokens;
 }

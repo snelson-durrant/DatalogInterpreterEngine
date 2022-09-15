@@ -13,7 +13,8 @@ enum class TokenType {
     PERIOD,
     Q_MARK,
     RIGHT_PAREN,
-    UNDEFINED
+    UNDEFINED,
+    EOF_TOKEN
 };
 
 class Token

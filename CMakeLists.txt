@@ -17,4 +17,19 @@ add_executable(snelsond_project1
         Lexer.h
         main.cpp
         Token.cpp
-        Token.h CommaAutomaton.h)
+        Token.h
+        AddAutomaton.cpp
+        AddAutomaton.h
+        CommaAutomaton.cpp
+        CommaAutomaton.h
+        LeftParenAutomaton.cpp
+        LeftParenAutomaton.h
+        MultiplyAutomaton.cpp
+        MultiplyAutomaton.h
+        PeriodAutomaton.cpp
+        PeriodAutomaton.h
+        QMarkAutomaton.cpp
+        QMarkAutomaton.h
+        RightParenAutomaton.cpp
+        RightParenAutomaton.h
+        )

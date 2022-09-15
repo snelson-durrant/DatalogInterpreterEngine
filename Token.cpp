@@ -22,6 +22,7 @@ std::string Token::TokenTypeToString() {
         case TokenType::Q_MARK: return "Q_MARK";
         case TokenType::RIGHT_PAREN: return "RIGHT_PAREN";
         case TokenType::UNDEFINED: return "UNDEFINED";
+        case TokenType::EOF_TOKEN: return "EOF";
     }
     return "ERROR"; // a string MUST be returned by the end
 }

@@ -1,6 +1,7 @@
 #include "Lexer.h"
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 int main(int argc, char** argv) {
 
@@ -16,13 +17,15 @@ int main(int argc, char** argv) {
         c = infile.get();
         infile_string.push_back(c);
     }
-    std::cout << infile_string;
     infile.close();
 
     // convert to tokens and print
     lexer->Run(infile_string);
-    std::string token_string = lexer->AllTokensToString();
-    std::cout << token_string;
+    std::vector<std::string> infile_tokens = lexer->TokensToVector();
+    for (std::string token : infile_tokens) {
+        std::cout << token << '\n';
+    }
+    std::cout << "Total Tokens = " << infile_tokens.size() << '\n';
     delete lexer;
 
     return 0;

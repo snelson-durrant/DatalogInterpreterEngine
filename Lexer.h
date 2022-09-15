@@ -18,7 +18,7 @@ public:
 
     void Run(std::string& input);
 
-    std::string AllTokensToString();
+    std::vector<std::string> TokensToVector();
 
 };
 
