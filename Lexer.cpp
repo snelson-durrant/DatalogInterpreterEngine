@@ -10,13 +10,14 @@
 #include "RightParenAutomaton.h"
 #include "IDAutomaton.h"
 #include "StringAutomaton.h"
+#include "MLCommentAutomaton.h"
+#include "CommentAutomaton.h"
 
 Lexer::Lexer() {
     CreateAutomata();
 }
 
 Lexer::~Lexer() {
-    // TODO check if this did anything at all?
     // for (Automaton* automaton : automata) {
     //    delete automaton;
     // }
@@ -39,7 +40,8 @@ void Lexer::CreateAutomata() {
     automata.push_back(new RightParenAutomaton());
     automata.push_back(new IDAutomaton());
     automata.push_back(new StringAutomaton());
-    // TODO: Add the other needed automata here
+    automata.push_back(new MLCommentAutomaton());
+    automata.push_back(new CommentAutomaton());
 }
 
 void Lexer::Run(std::string& input) {
@@ -70,10 +72,12 @@ void Lexer::Run(std::string& input) {
             Token* newToken = new Token(TokenType::UNDEFINED, input.std::string::substr(0, 1), lineNumber);
             tokens.push_back(newToken);
         } else {
-            if (input[0] == '\n') {
-                lineNumber++;
-            }
             maxRead = 1;
+        }
+        for (char c : input.substr(0, maxRead)) {
+            if (c == '\n') {
+                lineNumber ++;
+            }
         }
         input.erase(0, maxRead);
     }

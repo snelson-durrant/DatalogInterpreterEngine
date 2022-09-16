@@ -36,4 +36,8 @@ add_executable(snelsond_project1
         IDAutomaton.h
         StringAutomaton.cpp
         StringAutomaton.h
+        MLCommentAutomaton.cpp
+        MLCommentAutomaton.h
+        CommentAutomaton.cpp
+        CommentAutomaton.h
         )

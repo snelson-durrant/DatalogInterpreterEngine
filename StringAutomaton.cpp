@@ -1,6 +1,7 @@
 #include "StringAutomaton.h"
 
 void StringAutomaton::S0(const std::string& input) {
+    ChangeToken(TokenType::STRING);
     if (input[index] == '\'') {
         inputRead++;
         index++;
@@ -13,16 +14,22 @@ void StringAutomaton::S0(const std::string& input) {
 
 void StringAutomaton::S1(const std::string& input) {
     if (input[index] == EOF) {
-        // TODO figure out how to set to undefined
+        ChangeToken(TokenType::UNDEFINED);
     } else if (input[index] != '\'') {
         inputRead++;
         index++;
         S1(input);
     } else {
+        inputRead++;
+        index++;
         S2(input);
     }
 }
 
 void StringAutomaton::S2(const std::string& input) {
-    inputRead++;
+    if (input[index] == '\'') {
+        inputRead++;
+        index++;
+        S1(input);
+    }
 }

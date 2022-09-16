@@ -23,7 +23,6 @@ public:
     //   read == 0 indicates the input was rejected
     //   read  > 0 indicates the input was accepted
     int Start(const std::string& input) {
-        newLines = 0;
         inputRead = 0;
         index = 0;
         S0(input);
@@ -40,7 +39,7 @@ public:
 
     virtual Token* CreateToken(std::string input, int lineNumber) { return new Token(type, input, lineNumber); }
 
-    int NewLinesRead() const { return newLines; }
+    virtual void ChangeToken(TokenType new_type) { type = new_type; }
 };
 
 #endif // AUTOMATON_H
