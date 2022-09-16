@@ -25,7 +25,7 @@ void MLCommentAutomaton::S1(const std::string& input) {
 
 void MLCommentAutomaton::S2(const std::string& input) {
     if (input[index] == EOF) {
-        // TODO figure out how to set to undefined
+        ChangeToken(TokenType::UNDEFINED);
     } else if (input[index] != '|') {
         inputRead++;
         index++;
