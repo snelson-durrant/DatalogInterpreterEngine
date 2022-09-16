@@ -12,6 +12,10 @@
 #include "StringAutomaton.h"
 #include "MLCommentAutomaton.h"
 #include "CommentAutomaton.h"
+#include "SchemesAutomaton.h"
+#include "FactsAutomaton.h"
+#include "QueriesAutomaton.h"
+#include "RulesAutomaton.h"
 
 Lexer::Lexer() {
     CreateAutomata();
@@ -38,6 +42,12 @@ void Lexer::CreateAutomata() {
     automata.push_back(new PeriodAutomaton());
     automata.push_back(new QMarkAutomaton());
     automata.push_back(new RightParenAutomaton());
+    // put these before IDAutomaton
+    automata.push_back(new SchemesAutomaton());
+    automata.push_back(new FactsAutomaton());
+    automata.push_back(new QueriesAutomaton());
+    automata.push_back(new RulesAutomaton());
+    //
     automata.push_back(new IDAutomaton());
     automata.push_back(new StringAutomaton());
     automata.push_back(new MLCommentAutomaton());

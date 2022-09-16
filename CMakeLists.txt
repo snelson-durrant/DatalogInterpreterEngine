@@ -40,4 +40,12 @@ add_executable(snelsond_project1
         MLCommentAutomaton.h
         CommentAutomaton.cpp
         CommentAutomaton.h
+        SchemesAutomaton.cpp
+        SchemesAutomaton.h
+        FactsAutomaton.cpp
+        FactsAutomaton.h
+        QueriesAutomaton.cpp
+        QueriesAutomaton.h
+        RulesAutomaton.cpp
+        RulesAutomaton.h
         )

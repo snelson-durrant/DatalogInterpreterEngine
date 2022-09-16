@@ -18,13 +18,4 @@ void IDAutomaton::S1(const std::string& input) {
         index++;
         S1(input);
     }
-    if (input.substr(0, inputRead) == "Schemes") {
-        ChangeToken(TokenType::SCHEMES);
-    } else if (input.substr(0, inputRead) == "Facts") {
-        ChangeToken(TokenType::FACTS);
-    } else if (input.substr(0, inputRead) == "Rules") {
-        ChangeToken(TokenType::RULES);
-    } else if (input.substr(0, inputRead) == "Queries") {
-        ChangeToken(TokenType::QUERIES);
-    }
 }
