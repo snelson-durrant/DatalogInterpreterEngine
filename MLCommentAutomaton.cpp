@@ -26,14 +26,14 @@ void MLCommentAutomaton::S1(const std::string& input) {
 void MLCommentAutomaton::S2(const std::string& input) {
     if (input[index] == EOF) {
         ChangeToken(TokenType::UNDEFINED);
-    } else if (input[index] != '|') {
-        inputRead++;
-        index++;
-        S2(input);
-    } else {
+    } else if (input[index] == '|') {
         inputRead++;
         index++;
         S3(input);
+    } else {
+        inputRead++;
+        index++;
+        S2(input);
     }
 }
 
@@ -45,6 +45,6 @@ void MLCommentAutomaton::S3(const std::string& input) {
     } else {
         inputRead++;
         index++;
-        S3(input);
+        S2(input);
     }
 }

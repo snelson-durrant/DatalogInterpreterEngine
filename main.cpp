@@ -25,7 +25,7 @@ int main (int argc, char** argv) {
     for (std::string token : infile_tokens) {
         std::cout << token << '\n';
     }
-    std::cout << "Total Tokens = " << infile_tokens.size() << '\n';
+    std::cout << "Total Tokens = " << infile_tokens.size();
     delete lexer;
 
     return 0;
