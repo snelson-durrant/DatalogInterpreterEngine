@@ -91,124 +91,171 @@ void Parser::queryList() {
 
 void Parser::scheme() {
 
+    Predicate* sch = new Predicate();
+    sch->add_id(tokens[token_counter]->TokenValueToString());
     match("ID");
     match("LEFT_PAREN");
+    Parameter* par = new Parameter(tokens[token_counter]->TokenValueToString());
+    sch->add_par(par);
     match("ID");
 
-    idList();
+    std::vector<Parameter*> pars = idList();
+    for (Parameter* p : pars) {
+        sch->add_par(p);
+    }
 
     match("RIGHT_PAREN");
+    datalog_program->add_scheme(sch);
 
 }
 
 void Parser::fact() {
 
+    Predicate* fac = new Predicate();
+    fac->add_id(tokens[token_counter]->TokenValueToString());
     match("ID");
     match("LEFT_PAREN");
+    Parameter* par = new Parameter(tokens[token_counter]->TokenValueToString());
+    fac->add_par(par);
     match("STRING");
 
-    stringList();
+    std::vector<Parameter*> pars = stringList();
+    for (Parameter* p : pars) {
+        fac->add_par(p);
+    }
 
     match("RIGHT_PAREN");
     match("PERIOD");
+    datalog_program->add_fact(fac);
 
 }
 
 void Parser::rule() {
 
-    headPredicate();
+    Rule* rul = new Rule();
+    rul->add_head(headPredicate());
 
     match("COLON_DASH");
 
-    predicate();
-    predicateList();
+    rul->add_pred(predicate());
+    std::vector<Predicate*> preds = predicateList();
+    for (Predicate* p : preds) {
+        rul->add_pred(p);
+    }
 
     match("PERIOD");
+    datalog_program->add_rule(rul);
 
 }
 
 void Parser::query() {
 
-    predicate();
+    datalog_program->add_query(predicate());
 
     match("Q_MARK");
 
 }
 
-void Parser::headPredicate() {
+Predicate* Parser::headPredicate() {
 
+    Predicate* head = new Predicate();
+    head->add_id(tokens[token_counter]->TokenValueToString());
     match("ID");
     match("LEFT_PAREN");
+    Parameter* par = new Parameter(tokens[token_counter]->TokenValueToString());
+    head->add_par(par);
     match("ID");
 
-    idList();
+    std::vector<Parameter*> pars = idList();
+    for (Parameter* p : pars) {
+        head->add_par(p);
+    }
 
     match("RIGHT_PAREN");
+    return head;
 
 }
 
-void Parser::predicate() {
+Predicate* Parser::predicate() {
 
+    Predicate* pred = new Predicate();
+    pred->add_id(tokens[token_counter]->TokenValueToString());
     match("ID");
     match("LEFT_PAREN");
 
-    parameter();
-    parameterList();
+    pred->add_par(parameter());
+    std::vector<Parameter*> pars = parameterList();
+    for (Parameter* p : pars) {
+        pred->add_par(p);
+    }
 
     match("RIGHT_PAREN");
+    return pred;
 
 }
 
-void Parser::predicateList() {
+std::vector<Predicate*> Parser::predicateList() {
 
     if (tokens[token_counter]->TokenTypeToString() == "COMMA") {
         match("COMMA");
 
-        predicate();
+        pred_list.push_back(predicate());
         predicateList();
     }
+    return pred_list;
 
 }
 
-void Parser::parameterList() {
+std::vector<Parameter*> Parser::parameterList() {
 
     if (tokens[token_counter]->TokenTypeToString() == "COMMA") {
         match("COMMA");
 
-        parameter();
+        par_list.push_back(parameter());
         parameterList();
     }
+    return par_list;
 
 }
 
-void Parser::stringList() {
+std::vector<Parameter*>  Parser::stringList() {
 
     if (tokens[token_counter]->TokenTypeToString() == "COMMA") {
         match("COMMA");
+        Parameter* par = new Parameter(tokens[token_counter]->TokenValueToString());
+        str_list.push_back(par);
         match("STRING");
 
         stringList();
     }
+    return str_list;
 
 }
 
-void Parser::idList() {
+std::vector<Parameter*> Parser::idList() {
 
     if (tokens[token_counter]->TokenTypeToString() == "COMMA") {
         match("COMMA");
+        Parameter* par = new Parameter(tokens[token_counter]->TokenValueToString());
+        id_list.push_back(par);
         match("ID");
 
         idList();
     }
+    return id_list;
 
 }
 
-void Parser::parameter() {
+Parameter* Parser::parameter() {
 
     if (tokens[token_counter]->TokenTypeToString() == "STRING") {
+        Parameter* par = new Parameter(tokens[token_counter]->TokenValueToString());
         match("STRING");
+        return par;
     } else if (tokens[token_counter]->TokenTypeToString() == "ID") {
+        Parameter* par = new Parameter(tokens[token_counter]->TokenValueToString());
         match("ID");
+        return par;
     } else {
         throw tokens[token_counter];
     }
@@ -227,5 +274,14 @@ void Parser::Run() {
     }
 
     datalogProgram();
+
+}
+
+void Parser::print() {
+
+    datalog_program->print_schemes();
+    datalog_program->print_facts();
+    datalog_program->print_rules();
+    datalog_program->print_queries();
 
 }

@@ -50,4 +50,12 @@ add_executable(snelsond_project1
         RulesAutomaton.h
         Parser.cpp
         Parser.h
+        DatalogProgram.cpp
+        DatalogProgram.h
+        Parameter.cpp
+        Parameter.h
+        Predicate.cpp
+        Predicate.h
+        Rule.cpp
+        Rule.h
         )

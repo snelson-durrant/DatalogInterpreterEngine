@@ -33,3 +33,7 @@ std::string Token::TokenTypeToString() {
     }
     return "ERROR"; // a string MUST be returned by the end
 }
+
+std::string Token::TokenValueToString() {
+    return token_value;
+}

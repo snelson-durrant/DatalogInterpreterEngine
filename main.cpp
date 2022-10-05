@@ -29,7 +29,8 @@ int main (int argc, char** argv) {
 
     try {
         parser->Run();
-        std::cout << "Success!";
+        std::cout << "Success!" << std::endl;
+        parser->print();
     }
     catch (Token* errorToken) {
         std::cout << "Failure!" << std::endl;
