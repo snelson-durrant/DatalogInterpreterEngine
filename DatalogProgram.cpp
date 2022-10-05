@@ -5,14 +5,7 @@ DatalogProgram::DatalogProgram() {
 }
 
 DatalogProgram::~DatalogProgram() {
-    // for (Automaton* automaton : automata) {
-    //    delete automaton;
-    // }
-    // automata.clear();
-    // for (Token* token : tokens) {
-    //    delete token;
-    // }
-    // tokens.clear();
+
 }
 
 void DatalogProgram::add_scheme(Predicate* scheme) {

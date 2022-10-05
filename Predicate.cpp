@@ -5,14 +5,7 @@ Predicate::Predicate() {
 }
 
 Predicate::~Predicate() {
-    // for (Automaton* automaton : automata) {
-    //    delete automaton;
-    // }
-    // automata.clear();
-    // for (Token* token : tokens) {
-    //    delete token;
-    // }
-    // tokens.clear();
+
 }
 
 void Predicate::add_par(Parameter* input) {
