@@ -95,11 +95,6 @@ void Lexer::Run(std::string& input) {
     tokens.push_back(newToken);
 }
 
-std::vector<std::string> Lexer::TokensToVector() {
-    std::vector<std::string> all_tokens;
-    for (Token* token : tokens) {
-        std::string token_str = token->ToString();
-        all_tokens.push_back(token_str);
-    }
-    return all_tokens;
+std::vector<Token*> Lexer::TokensToVector() {
+    return tokens;
 }

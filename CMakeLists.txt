@@ -48,4 +48,6 @@ add_executable(snelsond_project1
         QueriesAutomaton.h
         RulesAutomaton.cpp
         RulesAutomaton.h
+        Parser.cpp
+        Parser.h
         )
