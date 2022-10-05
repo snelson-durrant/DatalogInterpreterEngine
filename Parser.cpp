@@ -263,13 +263,15 @@ Parameter* Parser::parameter() {
 
 void Parser::Run() {
 
-    // remove comments
-    int i = 0;
-    for (Token* token : tokens) {
-        if (token->TokenTypeToString() == "COMMENT") {
-            tokens.erase(tokens.begin(), tokens.begin() + i);
+    std::vector<int> comments;
+    comments.push_back(0);
+    for (unsigned int i = 0; i < tokens.size(); i++) {
+        if (tokens[i]->TokenTypeToString() == "COMMENT") {
+            comments.push_back(i);
         }
-        i += 1;
+    }
+    for (unsigned int i = comments.size() - 1; i > 0; i--) {
+        tokens.erase(tokens.begin() + comments[i]);
     }
 
     datalogProgram();
