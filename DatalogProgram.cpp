@@ -5,7 +5,10 @@ DatalogProgram::DatalogProgram() {
 }
 
 DatalogProgram::~DatalogProgram() {
-
+    schemes.clear();
+    facts.clear();
+    queries.clear();
+    rules.clear();
 }
 
 void DatalogProgram::add_scheme(Predicate* scheme) {
@@ -50,4 +53,23 @@ void DatalogProgram::print_rules() {
     for (Rule* rule : rules) {
         std::cout << "  " << rule->toString() << std::endl;
     }
+}
+
+void DatalogProgram::print_domain() {
+    std::vector<std::string> domains;
+    std::vector<std::string> insert;
+    for (Predicate* fact : facts) {
+        insert = fact->getDomain();
+        for (std::string str : insert) {
+            domains.push_back(str);
+        }
+    }
+
+    std::sort(domains.begin(), domains.end());
+    domains.erase( std::unique(domains.begin(), domains.end()), domains.end());
+    std::cout << "Domain(" + std::to_string(domains.size()) + "):" << std::endl;
+    for (std::string domain : domains) {
+        std::cout << "  " << domain << std::endl;
+    }
+
 }

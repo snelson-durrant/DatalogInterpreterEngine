@@ -2,6 +2,7 @@
 #define DATALOGPROGRAM_H
 #include "Rule.h"
 #include <iostream>
+#include <algorithm>
 
 class DatalogProgram
 {
@@ -23,6 +24,7 @@ public:
     void print_facts();
     void print_queries();
     void print_rules();
+    void print_domain();
 
 };
 

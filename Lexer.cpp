@@ -22,14 +22,8 @@ Lexer::Lexer() {
 }
 
 Lexer::~Lexer() {
-    // for (Automaton* automaton : automata) {
-    //    delete automaton;
-    // }
-    // automata.clear();
-    // for (Token* token : tokens) {
-    //    delete token;
-    // }
-    // tokens.clear();
+    automata.clear();
+    tokens.clear();
 }
 
 void Lexer::CreateAutomata() {

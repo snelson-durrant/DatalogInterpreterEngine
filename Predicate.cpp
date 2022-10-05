@@ -5,7 +5,7 @@ Predicate::Predicate() {
 }
 
 Predicate::~Predicate() {
-
+    parameters.clear();
 }
 
 void Predicate::add_par(Parameter* input) {
@@ -23,5 +23,13 @@ std::string Predicate::toString() {
     }
     output.pop_back();
     output = output + ")";
+    return output;
+}
+
+std::vector<std::string> Predicate::getDomain() {
+    std::vector<std::string> output;
+    for (Parameter* par : parameters) {
+        output.push_back(par->toString());
+    }
     return output;
 }

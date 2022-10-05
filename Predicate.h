@@ -15,6 +15,7 @@ public:
 
     void add_par(Parameter* input);
     void add_id(std::string input);
+    std::vector<std::string> getDomain();
     std::string toString();
 
 };

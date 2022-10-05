@@ -6,14 +6,8 @@ Parser::Parser(std::vector<Token*> input_tokens) {
 }
 
 Parser::~Parser() {
-    // for (Automaton* automaton : automata) {
-    //    delete automaton;
-    // }
-    // automata.clear();
-    // for (Token* token : tokens) {
-    //    delete token;
-    // }
-    // tokens.clear();
+    tokens.clear();
+    delete datalog_program;
 }
 
 void Parser::match(std::string token_type) {
@@ -99,6 +93,7 @@ void Parser::scheme() {
     sch->add_par(par);
     match("ID");
 
+    id_list.clear();
     std::vector<Parameter*> pars = idList();
     for (Parameter* p : pars) {
         sch->add_par(p);
@@ -119,6 +114,7 @@ void Parser::fact() {
     fac->add_par(par);
     match("STRING");
 
+    str_list.clear();
     std::vector<Parameter*> pars = stringList();
     for (Parameter* p : pars) {
         fac->add_par(p);
@@ -138,6 +134,7 @@ void Parser::rule() {
     match("COLON_DASH");
 
     rul->add_pred(predicate());
+    pred_list.clear();
     std::vector<Predicate*> preds = predicateList();
     for (Predicate* p : preds) {
         rul->add_pred(p);
@@ -166,6 +163,7 @@ Predicate* Parser::headPredicate() {
     head->add_par(par);
     match("ID");
 
+    id_list.clear();
     std::vector<Parameter*> pars = idList();
     for (Parameter* p : pars) {
         head->add_par(p);
@@ -184,6 +182,7 @@ Predicate* Parser::predicate() {
     match("LEFT_PAREN");
 
     pred->add_par(parameter());
+    par_list.clear();
     std::vector<Parameter*> pars = parameterList();
     for (Parameter* p : pars) {
         pred->add_par(p);
@@ -283,5 +282,6 @@ void Parser::print() {
     datalog_program->print_facts();
     datalog_program->print_rules();
     datalog_program->print_queries();
+    datalog_program->print_domain();
 
 }

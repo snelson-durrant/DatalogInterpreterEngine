@@ -37,6 +37,7 @@ int main (int argc, char** argv) {
         std::cout << "  " << errorToken->ToString();
     }
 
+    infile_tokens.clear();
     delete parser;
 
     return 0;

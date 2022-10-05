@@ -9,7 +9,7 @@ class Parser
 private:
     std::vector<Token*> tokens;
     int token_counter;
-    DatalogProgram* datalog_program;
+    DatalogProgram* datalog_program = new DatalogProgram();
 
 public:
     Parser(std::vector<Token*> input_tokens);
@@ -33,14 +33,14 @@ public:
     std::vector<Parameter*> idList();
     Parameter* parameter();
 
+    void Run();
+
+    void print();
+
     std::vector<Predicate*> pred_list;
     std::vector<Parameter*> par_list;
     std::vector<Parameter*> str_list;
     std::vector<Parameter*> id_list;
-
-    void Run();
-
-    void print();
 
 };
 

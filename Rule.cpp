@@ -5,7 +5,8 @@ Rule::Rule() {
 }
 
 Rule::~Rule() {
-
+    bodyPredicates.clear();
+    delete headPredicate;
 }
 
 std::string Rule::toString() {
