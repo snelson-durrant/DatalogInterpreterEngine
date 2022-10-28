@@ -15,6 +15,8 @@ public:
     Parser(std::vector<Token*> input_tokens);
     ~Parser();
     void match(std::string token_type);
+    void Run();
+    void print();
 
     void datalogProgram();
     void schemeList();
@@ -32,10 +34,6 @@ public:
     std::vector<Parameter*> stringList();
     std::vector<Parameter*> idList();
     Parameter* parameter();
-
-    void Run();
-
-    void print();
 
     std::vector<Predicate*> pred_list;
     std::vector<Parameter*> par_list;
