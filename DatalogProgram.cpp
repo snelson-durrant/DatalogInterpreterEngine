@@ -27,35 +27,23 @@ void DatalogProgram::add_rule(Rule* rule) {
     rules.push_back(rule);
 }
 
-void DatalogProgram::print_schemes() {
-    std::cout << "Schemes(" + std::to_string(schemes.size()) + "):" << std::endl;
-    for (Predicate* scheme : schemes) {
-        std::cout << "  " << scheme->toString() << std::endl;
-    }
+std::vector<Predicate*> DatalogProgram::get_schemes() {
+    return schemes;
 }
 
-void DatalogProgram::print_facts() {
-    std::cout << "Facts(" + std::to_string(facts.size()) + "):" << std::endl;
-    for (Predicate* fact : facts) {
-        std::cout << "  " << fact->toString() << "." << std::endl;
-    }
+std::vector<Predicate*> DatalogProgram::get_facts() {
+    return facts;
 }
 
-void DatalogProgram::print_queries() {
-    std::cout << "Queries(" + std::to_string(queries.size()) + "):" << std::endl;
-    for (Predicate* query : queries) {
-        std::cout << "  " << query->toString() << "?" << std::endl;
-    }
+std::vector<Predicate*> DatalogProgram::get_queries() {
+    return queries;
 }
 
-void DatalogProgram::print_rules() {
-    std::cout << "Rules(" + std::to_string(rules.size()) + "):" << std::endl;
-    for (Rule* rule : rules) {
-        std::cout << "  " << rule->toString() << std::endl;
-    }
+std::vector<Rule*> DatalogProgram::get_rules() {
+    return rules;
 }
 
-void DatalogProgram::print_domain() {
+std::vector<std::string> DatalogProgram::get_domain() {
     std::vector<std::string> domains;
     std::vector<std::string> insert;
     for (Predicate* fact : facts) {
@@ -68,8 +56,6 @@ void DatalogProgram::print_domain() {
     std::sort(domains.begin(), domains.end());
     domains.erase( std::unique(domains.begin(), domains.end()), domains.end());
     std::cout << "Domain(" + std::to_string(domains.size()) + "):" << std::endl;
-    for (std::string domain : domains) {
-        std::cout << "  " << domain << std::endl;
-    }
+    return domains;
 
 }

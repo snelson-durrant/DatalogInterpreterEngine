@@ -17,6 +17,13 @@ public:
     void add_id(std::string input);
     std::vector<std::string> getDomain();
     std::string toString();
+    std::string get_id() {
+        return id;
+    }
+    std::vector<Parameter*> get_parameters() {
+        return parameters;
+    }
+
 
 };
 

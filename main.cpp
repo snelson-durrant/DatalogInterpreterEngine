@@ -1,5 +1,6 @@
 #include "Lexer.h"
 #include "Parser.h"
+#include "Relation.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -14,7 +15,6 @@ int main (int argc, char** argv) {
     std::ifstream infile(filename);
     std::string infile_string;
     while (EOF != c) {
-        // maybe don't need c?
         c = infile.get();
         infile_string.push_back(c);
     }
@@ -29,8 +29,8 @@ int main (int argc, char** argv) {
 
     try {
         parser->Run();
+        // DatalogProgram* datalogProgram = parser->datalogProgram(); FIX HERE
         std::cout << "Success!" << std::endl;
-        parser->print();
     }
     catch (Token* errorToken) {
         std::cout << "Failure!" << std::endl;

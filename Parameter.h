@@ -12,6 +12,9 @@ public:
     ~Parameter();
 
     std::string toString();
+    std::string get_p() {
+        return p;
+    }
 
 };
 

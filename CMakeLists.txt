@@ -58,4 +58,9 @@ add_executable(snelsond_project1
         Predicate.h
         Rule.cpp
         Rule.h
+        Header.h
+        Tuple.h
+        Relation.h
+        Database.h
+        Interpreter.h
         )

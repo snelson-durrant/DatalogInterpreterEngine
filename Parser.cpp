@@ -277,13 +277,3 @@ void Parser::Run() {
     datalogProgram();
 
 }
-
-void Parser::print() {
-
-    datalog_program->print_schemes();
-    datalog_program->print_facts();
-    datalog_program->print_rules();
-    datalog_program->print_queries();
-    datalog_program->print_domain();
-
-}

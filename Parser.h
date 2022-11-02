@@ -16,7 +16,6 @@ public:
     ~Parser();
     void match(std::string token_type);
     void Run();
-    void print();
 
     void datalogProgram();
     void schemeList();

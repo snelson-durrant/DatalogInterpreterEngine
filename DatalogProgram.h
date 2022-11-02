@@ -20,11 +20,11 @@ public:
     void add_fact(Predicate* fact);
     void add_query(Predicate* query);
     void add_rule(Rule* rule);
-    void print_schemes();
-    void print_facts();
-    void print_queries();
-    void print_rules();
-    void print_domain();
+    std::vector<Predicate*> get_schemes();
+    std::vector<Predicate*> get_facts();
+    std::vector<Predicate*> get_queries();
+    std::vector<Rule*> get_rules();
+    std::vector<std::string> get_domain();
 
 };
 
