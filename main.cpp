@@ -1,6 +1,6 @@
 #include "Lexer.h"
 #include "Parser.h"
-#include "Relation.h"
+#include "Interpreter.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -26,11 +26,11 @@ int main (int argc, char** argv) {
 
     delete lexer;
     Parser* parser = new Parser(infile_tokens);
+    DatalogProgram* datalog_program;
 
     try {
         parser->Run();
-        // DatalogProgram* datalogProgram = parser->datalogProgram(); FIX HERE
-        std::cout << "Success!" << std::endl;
+        datalog_program = parser->get_program();
     }
     catch (Token* errorToken) {
         std::cout << "Failure!" << std::endl;
@@ -39,6 +39,10 @@ int main (int argc, char** argv) {
 
     infile_tokens.clear();
     delete parser;
+
+    Interpreter* interpreter = new Interpreter(datalog_program);
+    interpreter->InterpretSchemes();
+    interpreter->InterpretFacts();
 
     return 0;
 }

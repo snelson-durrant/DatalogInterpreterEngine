@@ -34,6 +34,10 @@ public:
     std::vector<Parameter*> idList();
     Parameter* parameter();
 
+    DatalogProgram* get_program() {
+        return datalog_program;
+    }
+
     std::vector<Predicate*> pred_list;
     std::vector<Parameter*> par_list;
     std::vector<Parameter*> str_list;
