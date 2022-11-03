@@ -38,11 +38,13 @@ int main (int argc, char** argv) {
     }
 
     infile_tokens.clear();
-    delete parser;
 
     Interpreter* interpreter = new Interpreter(datalog_program);
     interpreter->InterpretSchemes();
     interpreter->InterpretFacts();
+    interpreter->InterpretQueries();
+
+    delete parser; // FIX THIS
 
     return 0;
 }

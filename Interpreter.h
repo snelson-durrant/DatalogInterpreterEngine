@@ -27,6 +27,7 @@ public:
             database->AddRelation(schemeRelation);
         }
     }
+
     void InterpretFacts() {
         for (Predicate* fact : program->get_facts()) {
             std::vector<std::string> factTuples;
@@ -37,8 +38,43 @@ public:
             database->GetRelation(fact->get_id())->addTuple(fTuple);
         }
     };
+
     // void InterpretRules();
-    // void InterpretQueries();
+
+    void InterpretQueries() {
+        for (Predicate* query : program->get_queries()) {
+            Relation matchingRelation = *database->GetRelation(query->get_id());
+            std::vector<std::string> variableNames;
+            std::vector<int> variableCols;
+            for (unsigned int i = 0; i < query->get_parameters().size(); i++) {
+                std::string value = query->get_parameters()[i]->get_p();
+                if (value[0] == '\'') {
+                    matchingRelation = matchingRelation.select1(i, value);
+                } else {
+                    bool isFound = false;
+                    for (unsigned int j = 0; j < variableNames.size(); j++) {
+                        if (value == variableNames[j]) {
+                            matchingRelation = matchingRelation.select2(variableCols[j], i);
+                            isFound = true;
+                        }
+                    }
+                    if (not isFound) {
+                        variableNames.push_back(value);
+                        variableCols.push_back(i);
+                    }
+                }
+            }
+            matchingRelation = matchingRelation.project(variableCols);
+            matchingRelation = matchingRelation.rename(variableNames);
+            std::cout << query->toString() << "? ";
+            if (matchingRelation.getTuples().size() > 0) {
+                std::cout << "Yes(" << matchingRelation.getTuples().size() << ")" << std::endl;
+            } else {
+                std::cout << "No" << std::endl;
+            }
+            matchingRelation.toString();
+        }
+    }
 
 };
 
