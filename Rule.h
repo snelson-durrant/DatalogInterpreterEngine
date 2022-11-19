@@ -5,12 +5,13 @@
 class Rule
 {
 private:
-    Predicate* headPredicate;
-    std::vector<Predicate*> bodyPredicates;
 
 public:
     Rule();
     ~Rule();
+
+    Predicate* headPredicate;
+    std::vector<Predicate*> bodyPredicates;
 
     void add_head(Predicate* input);
     void add_pred(Predicate* input);

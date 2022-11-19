@@ -42,6 +42,7 @@ int main (int argc, char** argv) {
     Interpreter* interpreter = new Interpreter(datalog_program);
     interpreter->InterpretSchemes();
     interpreter->InterpretFacts();
+    interpreter->InterpretRules();
     interpreter->InterpretQueries();
 
     delete parser; // FIX THIS

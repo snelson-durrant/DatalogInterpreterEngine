@@ -25,8 +25,78 @@ public:
     void setName(std::string newName) { name = newName; }
     void setColumnNames(Header newColumnNames) { columnNames = newColumnNames; }
     std::set<Tuple> getTuples() { return tuples; }
+    Header getColumnNames() { return columnNames; }
     std::string getName() { return name; }
     void addTuple(Tuple newTuple) { tuples.insert(newTuple); }
+
+    Relation join(Relation relationToJoin) {
+        Relation newRelation(this->name, this->columnNames);
+        std::vector<int> matchingNames1;
+        std::vector<int> matchingNames2;
+        std::vector<int> toAdd;
+        std::vector<std::string> newNames = this->columnNames.columnNames;
+
+        for (unsigned int j = 0; j < relationToJoin.columnNames.columnNames.size(); j++) {
+            bool matched = false;
+            for (unsigned int i = 0; i < this->columnNames.columnNames.size(); i++) {
+                if (this->columnNames.columnNames[i] == relationToJoin.columnNames.columnNames[j]) {
+                    matchingNames1.push_back(i);
+                    matchingNames2.push_back(j);
+                    matched = true;
+                }
+            }
+            if (!matched) {
+                toAdd.push_back(j);
+                newNames.push_back(relationToJoin.columnNames.columnNames[j]);
+            }
+        }
+        newRelation.setColumnNames(newNames);
+
+        for (Tuple tuple1 : tuples) {
+            for (Tuple tuple2 : relationToJoin.getTuples()) {
+                bool joinable = true;
+                for (unsigned int i = 0; i < matchingNames1.size(); i++) {
+                    if (!(tuple1.rowValues[matchingNames1[i]] == tuple2.rowValues[matchingNames2[i]])) {
+                        joinable = false;
+                    }
+                }
+                if (joinable and matchingNames1.size() > 0) {
+                    Tuple newTuple = tuple1;
+                    for (int add: toAdd) {
+                        newTuple.rowValues.push_back(tuple2.rowValues[add]);
+                    }
+                    newRelation.addTuple(newTuple);
+                }
+            }
+        }
+        return newRelation;
+
+    }
+
+    bool UnitedSoA(Relation toAdd) {
+        bool success = false;
+        for (Tuple tup : toAdd.tuples) {
+            if (tuples.insert(tup).second) {
+                success = true;
+                bool isPrinted = false;
+                for (std::vector<std::string>::size_type i = 0; i < tup.rowValues.size(); i++) {
+                    if (not isPrinted) {
+                        std::cout << "  ";
+                    }
+                    std::cout << this->columnNames.columnNames[i] << "=" << tup.rowValues[i] << "";
+                    if (i != (tup.rowValues.size() - 1) ) {
+                        std::cout << ", ";
+                    }
+                    isPrinted = true;
+                }
+                if (isPrinted) {
+                    std::cout << std::endl;
+                }
+            }
+        }
+
+        return success;
+    }
 
     Relation select1(int columnIndex, std::string value) {
         Relation newRelation(this->name, this->columnNames);
