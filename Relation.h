@@ -60,7 +60,7 @@ public:
                         joinable = false;
                     }
                 }
-                if (joinable and matchingNames1.size() > 0) {
+                if (joinable) {
                     Tuple newTuple = tuple1;
                     for (int add: toAdd) {
                         newTuple.rowValues.push_back(tuple2.rowValues[add]);
