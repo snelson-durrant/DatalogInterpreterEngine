@@ -2,6 +2,7 @@
 #define INTERPRETER_H
 #include "DatalogProgram.h"
 #include "Database.h"
+#include "Graph.h"
 #include <cctype>
 
 class Interpreter
@@ -41,6 +42,11 @@ public:
     };
 
     void InterpretRules() {
+
+        Graph graph;
+        graph.add_nodes(program);
+        std::vector<std::vector<int>> scc = graph.get_scc();
+
         std::cout << "Rule Evaluation" << std::endl;
         int passes = 0;
         bool tuplesAdded = true;

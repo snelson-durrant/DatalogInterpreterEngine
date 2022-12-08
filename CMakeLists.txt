@@ -63,4 +63,5 @@ add_executable(snelsond_project1
         Relation.h
         Database.h
         Interpreter.h
+        Graph.h
         )
