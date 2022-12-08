@@ -17,10 +17,9 @@ public:
     std::vector<std::vector<int>> scc;
     Graph() = default;
 
-    std::vector<std::vector<int>> get_scc() {
+    void get_scc() {
         dfs_back_forest();
         dfs_forward_forest();
-        return scc;
     }
 
     void add_nodes(DatalogProgram* data) {
@@ -32,11 +31,9 @@ public:
             for (unsigned int p = 0; p < data->get_rules()[i]->bodyPredicates.size(); p++) {
                 for (unsigned int j = 0; j < data->get_rules().size(); j++) {
                     if (data->get_rules()[j]->headPredicate->get_id() == data->get_rules()[i]->bodyPredicates[p]->get_id()) {
-                        if (!first) {
-                            std::cout << ",";
+                        if (edges.find(j) == edges.end()) {
+                            edges.insert(j);
                         }
-                        first = false;
-                        std::cout << "R" << j;
 
                         // deals with the reverse tree
                         auto it = rev_list.find(j);
@@ -48,11 +45,23 @@ public:
                             rev_list.insert({j, rev_edges});
                         }
 
-                        edges.insert(j);
                     }
                 }
             }
+            if (rev_list.find(i) == rev_list.end()) {
+                std::set<int> rev_edges;
+                rev_list.insert({i, rev_edges});
+            }
             adj_list.insert({i, edges});
+            for (int e : edges) {
+                if (!first) {
+                    std::cout << ",";
+                }
+                first = false;
+                std::cout << "R" << e;
+
+                edges.insert(e);
+            }
             visit_list.push_back(false);
             std::cout << std::endl;
         }
@@ -88,8 +97,8 @@ public:
             visit_list.push_back(false);
         }
         postorder.clear();
-        for (unsigned int i = order.size() - 1; i > 0; i--) {
-            if (!visit_list[i]) {
+        for (int i = order.size() - 1; i >= 0; i--) {
+            if (!visit_list[order[i]]) {
                 dfs(order[i], adj_list);
                 scc.push_back(postorder);
                 postorder.clear();

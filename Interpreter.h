@@ -4,6 +4,7 @@
 #include "Database.h"
 #include "Graph.h"
 #include <cctype>
+#include <algorithm>
 
 class Interpreter
 {
@@ -41,59 +42,97 @@ public:
         }
     };
 
+    bool isReflexive(Rule* rule) {
+        bool ref = false;
+        for(Predicate* pred : rule->bodyPredicates) {
+            if (rule->headPredicate->get_id() == pred->get_id()) {
+                ref = true;
+            }
+        }
+        return ref;
+    }
+
+
     void InterpretRules() {
 
         Graph graph;
         graph.add_nodes(program);
-        std::vector<std::vector<int>> scc = graph.get_scc();
-
+        graph.get_scc();
+        // JUST NEED TO ADD THIS PART
         std::cout << "Rule Evaluation" << std::endl;
-        int passes = 0;
-        bool tuplesAdded = true;
-        while (tuplesAdded) {
-            passes++;
-            tuplesAdded = false;
-            for (Rule* rule : program->get_rules()) {
-                std::cout << rule->toString() << std::endl;
-                std::vector<Relation> newRelations;
-                for (Predicate* pred : rule->bodyPredicates) {
-                    Relation newRelation = EvaluatePredicate(pred);
-                    newRelations.push_back(newRelation);
-                }
 
-                Relation fullRelation = newRelations[0];
-                if (newRelations.size() > 1) {
-                    for (unsigned int r = 1; r < newRelations.size(); r++) {
-                        fullRelation = fullRelation.join(newRelations[r]);
+        for (std::vector<int> s : graph.scc) {
+            std::cout << "SCC: ";
+            std::sort(s.begin(),s.end());
+            bool first = true;
+            for (int ss : s) {
+                if(!first) {
+                    std::cout << ",";
+                }
+                std::cout << "R" << ss;
+                first = false;
+            }
+            std::cout << std::endl;
+
+            int passes = 0;
+            bool tuplesAdded = true;
+            bool reflexive = false;
+            while (tuplesAdded and !reflexive) {
+                passes++;
+                tuplesAdded = false;
+                for (int ss : s) {
+                    std::cout << program->get_rules()[ss]->toString() << std::endl;
+                    std::vector<Relation> newRelations;
+                    for (Predicate* pred : program->get_rules()[ss]->bodyPredicates) {
+                        Relation newRelation = EvaluatePredicate(pred);
+                        newRelations.push_back(newRelation);
                     }
-                }
 
-                std::vector<int> headColumns;
-                for (unsigned int j = 0; j < rule->headPredicate->get_parameters().size(); j++) {
-                    for (unsigned int i = 0; i < fullRelation.getColumnNames().columnNames.size(); i++) {
-                        if (fullRelation.getColumnNames().columnNames[i] == rule->headPredicate->get_parameters()[j]->get_p()) {
-                            headColumns.push_back(i);
+                    Relation fullRelation = newRelations[0];
+                    if (newRelations.size() > 1) {
+                        for (unsigned int r = 1; r < newRelations.size(); r++) {
+                            fullRelation = fullRelation.join(newRelations[r]);
                         }
                     }
-                }
-                fullRelation = fullRelation.project(headColumns);
 
-                fullRelation.setName(rule->headPredicate->get_id());
+                    std::vector<int> headColumns;
+                    for (unsigned int j = 0; j < program->get_rules()[ss]->headPredicate->get_parameters().size(); j++) {
+                        for (unsigned int i = 0; i < fullRelation.getColumnNames().columnNames.size(); i++) {
+                            if (fullRelation.getColumnNames().columnNames[i] == program->get_rules()[ss]->headPredicate->get_parameters()[j]->get_p()) {
+                                headColumns.push_back(i);
+                            }
+                        }
+                    }
+                    fullRelation = fullRelation.project(headColumns);
 
-                Relation* dataRelation = database->GetRelation(fullRelation.getName());
-                fullRelation = fullRelation.rename(dataRelation->getColumnNames().columnNames);
+                    fullRelation.setName(program->get_rules()[ss]->headPredicate->get_id());
 
-                if (dataRelation->UnitedSoA(fullRelation)) {
-                    tuplesAdded = true;
+                    Relation* dataRelation = database->GetRelation(fullRelation.getName());
+                    fullRelation = fullRelation.rename(dataRelation->getColumnNames().columnNames);
+
+                    if (dataRelation->UnitedSoA(fullRelation)) {
+                        tuplesAdded = true;
+                    }
+
+                    if(s.size() == 1 and !isReflexive(program->get_rules()[s[0]])) {
+                        reflexive = true;
+                    }
+
                 }
 
             }
+            std::cout << passes << " passes: ";
+            first = true;
+            for (int ss : s) {
+                if(!first) {
+                    std::cout << ",";
+                }
+                std::cout << "R" << ss;
+                first = false;
+            }
+            std::cout << std::endl;
         }
-
-        std::cout << std::endl;
-        std::cout << "Schemes populated after " << passes << " passes through the Rules." << std::endl;
-        std::cout << std::endl;
-        std::cout << "Query Evaluation" << std::endl;
+        std::cout << std::endl << "Query Evaluation" << std::endl;
     }
 
 
